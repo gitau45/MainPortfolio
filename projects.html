@@ -1,0 +1,1377 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Projects | George Njoroge - Software Engineer & Digital Architect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #0f0f0f;
+            --secondary: #1a1a1a;
+            --accent: #ff3366;
+            --accent-glow: rgba(255, 51, 102, 0.4);
+            --gold: #ffd700;
+            --text: #f5f5f5;
+            --text-dim: #888;
+            --gradient-1: #ff3366;
+            --gradient-2: #ff6b35;
+            --gradient-3: #f7931e;
+            --card-bg: rgba(26, 26, 26, 0.8);
+            --border-color: rgba(255,255,255,0.1);
+            --overlay-bg: rgba(15,15,15,0.9);
+            --menu-bg: rgba(15,15,15,0.98);
+        }
+
+        [data-theme="light"] {
+            --primary: #f5f5f5;
+            --secondary: #ffffff;
+            --accent: #e91e63;
+            --accent-glow: rgba(233, 30, 99, 0.3);
+            --gold: #ff9800;
+            --text: #1a1a1a;
+            --text-dim: #666;
+            --gradient-1: #e91e63;
+            --gradient-2: #ff5722;
+            --gradient-3: #ff9800;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0,0,0,0.1);
+            --overlay-bg: rgba(245,245,245,0.95);
+            --menu-bg: rgba(245,245,245,0.98);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow-x: hidden;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* Desktop-only cursor */
+        @media (hover: hover) and (pointer: fine) {
+            body {
+                cursor: none;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            body {
+                cursor: auto;
+            }
+        }
+
+        /* Animated Grain Overlay */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        [data-theme="light"] .grain {
+            opacity: 0.02;
+        }
+
+        /* Custom Cursor - Desktop Only */
+        .cursor, .cursor-dot {
+            display: none;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .cursor {
+                display: block;
+                width: 20px;
+                height: 20px;
+                border: 2px solid var(--accent);
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 10000;
+                transition: transform 0.15s ease, background 0.15s ease, border-color 0.3s ease;
+                mix-blend-mode: difference;
+            }
+
+            [data-theme="light"] .cursor {
+                mix-blend-mode: normal;
+            }
+
+            .cursor.hover {
+                transform: scale(3);
+                background: var(--accent);
+            }
+
+            .cursor-dot {
+                display: block;
+                width: 6px;
+                height: 6px;
+                background: var(--accent);
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                transition: background 0.3s ease;
+            }
+        }
+
+        /* Navigation */
+        .nav-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            mix-blend-mode: difference;
+        }
+
+        [data-theme="light"] .nav-wrapper {
+            mix-blend-mode: normal;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="light"] .logo {
+            color: var(--text);
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+
+        .logo:hover::after {
+            transform: translateX(0);
+        }
+
+        /* Windows 11 Style Menu Trigger */
+        .menu-trigger {
+            position: fixed;
+            top: 1.5rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            color: var(--text);
+            font-size: 1.4rem;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .menu-trigger:hover, .menu-trigger:active {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* Windows 11 Style Fullscreen Menu */
+        .fullscreen-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--menu-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            overflow-y: auto;
+        }
+
+        .fullscreen-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Menu Container */
+        .menu-container {
+            max-width: 600px;
+            width: 90%;
+            padding: 2rem;
+            margin: auto;
+        }
+
+        /* Menu Header with Close Button */
+        .menu-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 2rem;
+        }
+
+        .menu-close {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .menu-close:hover, .menu-close:active {
+            background: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        /* Menu Items Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .menu-item-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .menu-item-card:hover, .menu-item-card:active {
+            background: var(--accent);
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .menu-item-icon {
+            font-size: 2rem;
+        }
+
+        .menu-item-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Menu Divider */
+        .menu-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 1.5rem 0;
+        }
+
+        /* Menu Footer Controls */
+        .menu-footer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .menu-footer-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            padding: 0.8rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .menu-footer-btn:hover, .menu-footer-btn:active {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 10rem 5rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255,51,102,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 span {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .page-header p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Projects Grid Full */
+        .projects-full {
+            padding: 4rem 5rem 8rem;
+            position: relative;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background: var(--secondary);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        .project-card:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes cardReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card:hover, .project-card:active {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(255,51,102,0.15);
+        }
+
+        /* Video Card Special Styling */
+        .project-card.video-card {
+            background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+        }
+
+        [data-theme="light"] .project-card.video-card {
+            background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .project-frame {
+            width: 100%;
+            height: 280px;
+            border: none;
+            transition: all 0.5s ease;
+        }
+
+        .project-card:hover .project-frame, .project-card:active .project-frame {
+            transform: scale(1.02);
+        }
+
+        .project-info {
+            padding: 1.8rem;
+        }
+
+        .project-info h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .project-info p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .project-link:hover, .project-link:active {
+            gap: 0.8rem;
+            color: var(--gradient-2);
+        }
+
+        .detail-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .detail-btn:hover, .detail-btn:active {
+            border-color: var(--accent);
+            background: rgba(255,51,102,0.1);
+            gap: 0.8rem;
+            color: var(--accent);
+        }
+
+        .watch-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,51,102,0.15);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .watch-link:hover, .watch-link:active {
+            background: var(--accent);
+            color: white;
+            gap: 0.8rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content {
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            background: var(--secondary);
+            border-radius: 28px;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            cursor: pointer;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+        }
+
+        .modal-close:hover, .modal-close:active {
+            background: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2.5rem;
+        }
+
+        .modal-video {
+            width: 100%;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .modal-description {
+            color: var(--text-dim);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .modal-tech span {
+            padding: 0.4rem 1rem;
+            background: rgba(255,51,102,0.1);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+
+        .modal-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .modal-link:hover, .modal-link:active {
+            transform: translateX(5px);
+            gap: 0.8rem;
+        }
+
+        /* Floating Orbs */
+        .floating-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+
+        [data-theme="light"] .orb {
+            opacity: 0.15;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            top: -200px;
+            right: -200px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--gradient-2);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -8s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-50px, 80px) scale(1.1); }
+            66% { transform: translate(40px, -50px) scale(0.9); }
+        }
+
+        /* Scroll Velocity Indicator */
+        .scroll-velocity {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .velocity-text {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        .velocity-line {
+            width: 1px;
+            height: 60px;
+            background: var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .velocity-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--accent);
+            transition: height 0.1s ease;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5rem;
+            background: var(--secondary);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.5s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .footer-text span {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover, .footer-links a:active {
+            color: var(--text);
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .page-header {
+                padding: 8rem 3rem 3rem;
+            }
+            .projects-full {
+                padding: 3rem 3rem 6rem;
+            }
+            .projects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-wrapper {
+                padding: 1rem 2rem;
+            }
+            .menu-trigger {
+                top: 1rem;
+                right: 1rem;
+                width: 42px;
+                height: 42px;
+            }
+            .page-header {
+                padding: 7rem 2rem 2rem;
+            }
+            .page-header h1 {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+            .projects-full {
+                padding: 2rem 1.5rem 4rem;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .project-frame {
+                height: 220px;
+            }
+            footer {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+                padding: 2rem 1.5rem;
+            }
+            .modal-body {
+                padding: 1.5rem;
+            }
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            .menu-footer {
+                flex-direction: column;
+                align-items: center;
+            }
+            .scroll-velocity {
+                display: none;
+            }
+            .floating-orbs {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-item-card {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 1rem;
+            }
+            .menu-item-icon {
+                font-size: 1.5rem;
+                width: 40px;
+            }
+            .project-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .project-link, .detail-btn, .watch-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (min-width: 1440px) {
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 1400px;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .project-card:hover {
+                transform: none;
+            }
+            .project-card:active {
+                transform: translateY(-5px);
+            }
+            .menu-item-card:hover {
+                transform: none;
+            }
+            .menu-item-card:active {
+                transform: translateY(-3px);
+            }
+        }
+
+        /* Prevent horizontal scroll */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Improve touch scrolling */
+        .modal-content, .fullscreen-menu {
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body>
+    <!-- Grain Overlay -->
+    <div class="grain"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Floating Orbs Background -->
+    <div class="floating-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-wrapper">
+        <a href="index.html" class="logo">George.</a>
+    </div>
+
+    <!-- Windows 11 Style Menu Trigger -->
+    <button class="menu-trigger" id="menuTrigger" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Windows 11 Style Fullscreen Menu -->
+    <div class="fullscreen-menu" id="fullscreenMenu">
+        <div class="menu-container">
+            <!-- Menu Header with Close Button -->
+            <div class="menu-header">
+                <button class="menu-close" id="menuClose" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Menu Items Grid -->
+            <div class="menu-grid">
+                <a href="index.html" class="menu-item-card">
+                    <i class="fas fa-home menu-item-icon"></i>
+                    <span class="menu-item-label">Home</span>
+                </a>
+                <a href="index.html#about" class="menu-item-card">
+                    <i class="fas fa-user menu-item-icon"></i>
+                    <span class="menu-item-label">About</span>
+                </a>
+                <a href="index.html#tech" class="menu-item-card">
+                    <i class="fas fa-code menu-item-icon"></i>
+                    <span class="menu-item-label">Expertise</span>
+                </a>
+                <a href="index.html#projects" class="menu-item-card">
+                    <i class="fas fa-project-diagram menu-item-icon"></i>
+                    <span class="menu-item-label">Work</span>
+                </a>
+                <a href="index.html#contact" class="menu-item-card">
+                    <i class="fas fa-envelope menu-item-icon"></i>
+                    <span class="menu-item-label">Contact</span>
+                </a>
+                <a href="projects.html" class="menu-item-card">
+                    <i class="fas fa-th menu-item-icon"></i>
+                    <span class="menu-item-label">All Projects</span>
+                </a>
+                <a href="about.html" class="menu-item-card">
+                    <i class="fas fa-book-open menu-item-icon"></i>
+                    <span class="menu-item-label">Full Story</span>
+                </a>
+            </div>
+
+            <!-- Menu Divider -->
+            <div class="menu-divider"></div>
+
+            <!-- Menu Footer Controls -->
+            <div class="menu-footer">
+                <button class="menu-footer-btn" id="menuThemeToggle">
+                    <i class="fas fa-moon" id="menuThemeIcon"></i>
+                    <span id="menuThemeText">Dark Mode</span>
+                </button>
+                <a href="https://github.com/gitau45" target="_blank" class="menu-footer-btn">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://linkedin.com/in/gitau" target="_blank" class="menu-footer-btn">
+                    <i class="fab fa-linkedin"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://twitter.com/gitau" target="_blank" class="menu-footer-btn">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Velocity -->
+    <div class="scroll-velocity">
+        <span class="velocity-text">Scroll</span>
+        <div class="velocity-line">
+            <div class="velocity-progress" id="velocityProgress"></div>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Featured <span>Projects</span></h1>
+        <p>A curated collection of my most impactful work across web development, creative media, and systems architecture.</p>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="projects-full">
+        <div class="projects-grid" id="allProjectsGrid"></div>
+    </div>
+
+    <!-- Modal for Project Details -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose" aria-label="Close modal"><i class="fas fa-times"></i></button>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-text">Crafted with <span>passion</span> & precision</div>
+        <div class="footer-links">
+            <a href="https://github.com/gitau45" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/in/gitau" target="_blank">LinkedIn</a>
+            <a href="https://twitter.com/gitau" target="_blank">Twitter</a>
+        </div>
+    </footer>
+
+    <script>
+        // Detect touch device
+        const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        
+        // All Projects Data with detailed information
+        const allProjects = [
+            { 
+                title: "Izza By Triskid - Official Music Video", 
+                type: "video", 
+                youtubeId: "H14GS-WSWfU",
+                youtubeUrl: "https://youtu.be/E2VeJoU-kIs",
+                desc: "Professionally edited music video showcasing creative video editing, color grading, and visual effects. Features dynamic transitions and professional post-production work.",
+                fullDesc: "This music video project represents my expertise in video editing and post-production. I handled the entire editing workflow including color grading, visual effects, dynamic transitions, and audio synchronization. The project required careful attention to pacing, mood, and visual storytelling to complement the artist's vision.",
+                technologies: ["Premiere Pro", "After Effects", "DaVinci Resolve", "Color Grading"],
+                date: "2024",
+                role: "Lead Video Editor & Animator"
+            },
+            { 
+                title: "Sports Management System", 
+                url: "https://kudaartist.com/Arnold/", 
+                desc: "Comprehensive platform for managing sports events, teams, and schedules with real-time analytics.",
+                fullDesc: "A full-stack web application designed for sports organizations to manage tournaments, teams, players, and match schedules. Features include real-time score updates, player statistics, automated bracket generation, and comprehensive analytics dashboards. Built with scalability and performance in mind.",
+                technologies: ["React", "Node.js", "MongoDB", "Express", "Socket.io"],
+                date: "2024",
+                role: "Lead Full-Stack Developer"
+            },
+            { 
+                title: "Supermarket MIS & POS", 
+                url: "https://kudaartist.com/sidney/login.php", 
+                desc: "Full-featured management information system with point of sale integration and inventory tracking.",
+                fullDesc: "An enterprise-grade Management Information System for supermarkets featuring POS integration, real-time inventory management, sales analytics, employee management, and automated reporting. The system handles thousands of transactions daily with robust security measures.",
+                technologies: ["PHP", "MySQL", "JavaScript", "Bootstrap", "jQuery"],
+                date: "2024",
+                role: "Systems Architect & Lead Developer"
+            },
+            { 
+                title: "Kuda Artist Portfolio", 
+                url: "https://kudaartist.com/", 
+                desc: "Elegant personal website showcasing contemporary art and creative work with gallery features.",
+                fullDesc: "A visually stunning portfolio website for a contemporary artist featuring a dynamic gallery, artist biography, exhibition history, and contact system. The design emphasizes the artwork while providing seamless navigation and responsive layout across all devices.",
+                technologies: ["HTML5", "CSS3", "JavaScript", "PHP", "MySQL"],
+                date: "2024",
+                role: "Frontend & Backend Developer"
+            },
+            { 
+                title: "University Voting App", 
+                url: "https://gitau45.github.io/zetechproject/", 
+                desc: "Secure student voting portal with real-time results, campus authentication, and election management.",
+                fullDesc: "A secure, real-time voting platform for university student elections featuring multi-campus authentication, candidate management, real-time vote tallying, and comprehensive election analytics. Built with security as the top priority, ensuring vote integrity and student privacy.",
+                technologies: ["React", "Firebase", "Node.js", "Express", "JWT"],
+                date: "2024",
+                role: "Lead Developer & Security Architect"
+            }
+        ];
+
+        // Render All Projects
+        const projectsGrid = document.getElementById('allProjectsGrid');
+        
+        allProjects.forEach((proj, index) => {
+            if (proj.type === 'video') {
+                projectsGrid.innerHTML += `
+                    <div class="project-card video-card" data-project-index="${index}">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/${proj.youtubeId}" title="${proj.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <div class="project-info">
+                            <h3>${proj.title}</h3>
+                            <p>${proj.desc}</p>
+                            <div class="project-links">
+                                <a href="${proj.youtubeUrl}" target="_blank" class="watch-link">
+                                    <i class="fab fa-youtube"></i> Watch on YouTube
+                                </a>
+                                <button class="detail-btn" onclick="showProjectDetails(${index})">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>`;
+            } else {
+                projectsGrid.innerHTML += `
+                    <div class="project-card" data-project-index="${index}">
+                        <iframe class="project-frame" src="${proj.url}" loading="lazy" title="${proj.title}" sandbox="allow-scripts allow-same-origin"></iframe>
+                        <div class="project-info">
+                            <h3>${proj.title}</h3>
+                            <p>${proj.desc}</p>
+                            <div class="project-links">
+                                <a href="${proj.url}" target="_blank" class="project-link">
+                                    View Live Project <i class="fas fa-arrow-right"></i>
+                                </a>
+                                <button class="detail-btn" onclick="showProjectDetails(${index})">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+        });
+
+        // Modal Functions
+        const modal = document.getElementById('projectModal');
+        const modalBody = document.getElementById('modalBody');
+        const modalClose = document.getElementById('modalClose');
+
+        window.showProjectDetails = function(index) {
+            const proj = allProjects[index];
+            
+            let mediaHtml = '';
+            if (proj.type === 'video') {
+                mediaHtml = `
+                    <div class="video-wrapper" style="margin-bottom: 1.5rem;">
+                        <iframe src="https://www.youtube.com/embed/${proj.youtubeId}" title="${proj.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                `;
+            } else {
+                mediaHtml = `
+                    <iframe class="modal-video" src="${proj.url}" style="width:100%; height:400px; border:none; border-radius:16px;" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+                `;
+            }
+            
+            modalBody.innerHTML = `
+                ${mediaHtml}
+                <h2 class="modal-title">${proj.title}</h2>
+                <div class="modal-tech">
+                    ${proj.technologies.map(tech => `<span>${tech}</span>`).join('')}
+                </div>
+                <p class="modal-description">${proj.fullDesc}</p>
+                <div style="margin-bottom: 1rem;">
+                    <p><strong style="color: var(--accent);">Role:</strong> ${proj.role}</p>
+                    <p><strong style="color: var(--accent);">Year:</strong> ${proj.date}</p>
+                </div>
+                <div class="modal-links">
+                    ${proj.type === 'video' ? 
+                        `<a href="${proj.youtubeUrl}" target="_blank" class="modal-link"><i class="fab fa-youtube"></i> Watch Full Video</a>` :
+                        `<a href="${proj.url}" target="_blank" class="modal-link"><i class="fas fa-external-link-alt"></i> Visit Live Project</a>`
+                    }
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Theme Toggle (inside menu)
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        
+        const menuThemeToggle = document.getElementById('menuThemeToggle');
+        const menuThemeIcon = document.getElementById('menuThemeIcon');
+        const menuThemeText = document.getElementById('menuThemeText');
+        
+        function updateMenuThemeUI(theme) {
+            if (theme === 'light') {
+                menuThemeIcon.classList.remove('fa-moon');
+                menuThemeIcon.classList.add('fa-sun');
+                menuThemeText.textContent = 'Light Mode';
+            } else {
+                menuThemeIcon.classList.remove('fa-sun');
+                menuThemeIcon.classList.add('fa-moon');
+                menuThemeText.textContent = 'Dark Mode';
+            }
+        }
+        
+        updateMenuThemeUI(savedTheme);
+        
+        menuThemeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateMenuThemeUI(newTheme);
+        });
+
+        // Menu Trigger Logic
+        const menuTrigger = document.getElementById('menuTrigger');
+        const fullscreenMenu = document.getElementById('fullscreenMenu');
+        const menuCloseBtn = document.getElementById('menuClose');
+
+        function openMenu() {
+            fullscreenMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            fullscreenMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        menuTrigger.addEventListener('click', openMenu);
+        menuCloseBtn.addEventListener('click', closeMenu);
+
+        fullscreenMenu.addEventListener('click', (e) => {
+            if (e.target === fullscreenMenu) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && fullscreenMenu.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Custom Cursor - Desktop Only
+        if (!isTouchDevice) {
+            const cursor = document.getElementById('cursor');
+            const cursorDot = document.getElementById('cursorDot');
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                cursorDot.style.left = mouseX + 'px';
+                cursorDot.style.top = mouseY + 'px';
+            });
+
+            function animateCursor() {
+                cursorX += (mouseX - cursorX) * 0.1;
+                cursorY += (mouseY - cursorY) * 0.1;
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            // Hover Effects for Cursor
+            document.querySelectorAll('a, button, .project-card, .menu-trigger, .menu-close, .menu-item-card, .menu-footer-btn, .watch-link, .project-link, .detail-btn, .modal-close, .footer-links a').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        // Scroll Progress
+        const velocityProgress = document.getElementById('velocityProgress');
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = max > 0 ? (scrolled / max) * 100 : 0;
+            velocityProgress.style.height = progress + '%';
+        });
+
+        // Parallax Effect for Orbs - Desktop Only
+        if (!isTouchDevice) {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                document.querySelectorAll('.orb').forEach((orb, i) => {
+                    const speed = 0.3 + (i * 0.1);
+                    orb.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        }
+
+        // Handle orientation change
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 100);
+        });
+    </script>
+</body>
+</html>'''
+
+
