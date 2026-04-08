@@ -56,24 +56,13 @@
             background: var(--primary);
             color: var(--text);
             overflow-x: hidden;
-            cursor: none;
             transition: background 0.5s ease, color 0.5s ease;
+            cursor: auto;
         }
 
-        /* Only show custom cursor on desktop */
-        @media (hover: hover) and (pointer: fine) {
-            body {
-                cursor: none;
-            }
-            .cursor, .cursor-dot {
-                display: block;
-            }
-        }
-
-        @media (hover: none) and (pointer: coarse) {
-            .cursor, .cursor-dot {
-                display: none;
-            }
+        /* No custom cursor - using default cursor for reliability */
+        .cursor, .cursor-dot {
+            display: none !important;
         }
 
         /* Animated Grain Overlay */
@@ -91,41 +80,6 @@
 
         [data-theme="light"] .grain {
             opacity: 0.02;
-        }
-
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.15s ease, background 0.15s ease, border-color 0.3s ease;
-            mix-blend-mode: difference;
-            display: none;
-        }
-
-        [data-theme="light"] .cursor {
-            mix-blend-mode: normal;
-        }
-
-        .cursor.hover {
-            transform: scale(3);
-            background: var(--accent);
-        }
-
-        .cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: background 0.3s ease;
-            display: none;
         }
 
         /* Navigation */
@@ -217,6 +171,7 @@
             background: var(--accent);
             border-color: var(--accent);
             transform: scale(1.05);
+            color: white;
         }
 
         /* Windows 11 Style Fullscreen Menu */
@@ -278,6 +233,7 @@
         .menu-close:hover {
             background: var(--accent);
             transform: rotate(90deg);
+            color: white;
         }
 
         .menu-grid {
@@ -319,6 +275,7 @@
             background: var(--accent);
             transform: translateY(-5px);
             border-color: var(--accent);
+            color: white;
         }
 
         .menu-item-icon {
@@ -369,6 +326,7 @@
             background: var(--accent);
             border-color: var(--accent);
             transform: translateY(-2px);
+            color: white;
         }
 
         /* Hero Section */
@@ -1096,7 +1054,7 @@
         .view-all-btn:hover::before { left: 0; }
         .view-all-btn:hover { color: white; gap: 1rem; }
 
-        /* CV CTA Section - New Section */
+        /* CV CTA Section */
         .cv-cta-section {
             padding: 5rem 5rem;
             background: var(--primary);
@@ -1344,10 +1302,6 @@
     <!-- Grain Overlay -->
     <div class="grain"></div>
 
-    <!-- Custom Cursor -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-dot" id="cursorDot"></div>
-
     <!-- Navigation -->
     <div class="nav-wrapper">
         <a href="#" class="logo">George.</a>
@@ -1524,7 +1478,7 @@
         </div>
     </section>
 
-    <!-- CV CTA Section - NEW -->
+    <!-- CV CTA Section -->
     <section class="cv-cta-section">
         <div class="cv-cta-card">
             <div class="cv-cta-icon">
@@ -1721,38 +1675,6 @@
             });
         });
 
-        // Custom Cursor - Only on desktop
-        const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-        
-        if (isDesktop) {
-            const cursor = document.getElementById('cursor');
-            const cursorDot = document.getElementById('cursorDot');
-            let mouseX = 0, mouseY = 0;
-            let cursorX = 0, cursorY = 0;
-
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                cursorDot.style.left = mouseX + 'px';
-                cursorDot.style.top = mouseY + 'px';
-            });
-
-            function animateCursor() {
-                cursorX += (mouseX - cursorX) * 0.15;
-                cursorY += (mouseY - cursorY) * 0.15;
-                cursor.style.left = cursorX + 'px';
-                cursor.style.top = cursorY + 'px';
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-
-            // Hover Effects
-            document.querySelectorAll('a, button, .tech-card, .project-card, .contact-method, .role-pill, .menu-trigger, .menu-close, .menu-item-card, .menu-footer-btn, .view-all-btn, .btn, .about-cta, .trait-tag, .cv-btn').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-            });
-        }
-
         // Scroll Progress
         const velocityProgress = document.getElementById('velocityProgress');
         window.addEventListener('scroll', () => {
@@ -1761,21 +1683,6 @@
             const progress = (scrolled / max) * 100;
             velocityProgress.style.height = progress + '%';
         });
-
-        // Magnetic Buttons (Desktop only)
-        if (isDesktop) {
-            document.querySelectorAll('.btn, .view-all-btn, .menu-footer-btn, .menu-item-card, .about-cta, .cv-btn').forEach(btn => {
-                btn.addEventListener('mousemove', (e) => {
-                    const rect = btn.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-                });
-                btn.addEventListener('mouseleave', () => {
-                    btn.style.transform = 'translate(0, 0)';
-                });
-            });
-        }
 
         // Parallax Effect
         window.addEventListener('scroll', () => {
